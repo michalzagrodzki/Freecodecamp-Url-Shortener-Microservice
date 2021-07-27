@@ -1,24 +1,27 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
 const app = express();
 
 // Basic Configuration
-const port = process.env.PORT || 3000;
+const { DEFAULT_PORT } = require("./utils/constants");
+
+const shortener_controller = require("./controllers/shortener");
 
 app.use(cors());
 
-app.use('/public', express.static(`${process.cwd()}/public`));
+app.use("/public", express.static(`${process.cwd()}/public`));
 
-app.get('/', function(req, res) {
-  res.sendFile(process.cwd() + '/views/index.html');
+app.get("/", function (req, res) {
+  res.sendFile(process.cwd() + "/views/index.html");
 });
 
-// Your first API endpoint
-app.get('/api/hello', function(req, res) {
-  res.json({ greeting: 'hello API' });
-});
+// GET shortener endpoint
+app.get("/api/shorturl/:id", shortener_controller.get_link);
 
-app.listen(port, function() {
-  console.log(`Listening on port ${port}`);
+// POST shortener endpoint
+app.post("/api/shorturl", shortener_controller.post_link);
+
+app.listen(DEFAULT_PORT || process.env.PORT, function () {
+  console.log(`Listening on port ${listener.address().port}`);
 });
