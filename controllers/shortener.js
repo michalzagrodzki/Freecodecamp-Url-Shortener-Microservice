@@ -7,11 +7,12 @@ const {
 } = require("./../utils/shortenerMethods");
 
 // send link
-exports.get_link = (req, res) => {
+exports.get_link = async (req, res) => {
   try {
     validateGetRequest(req);
+    const { id } = req.params;
 
-    const response = getLink(req.params.id);
+    const response = await getLink(id);
     res.redirect(response);
   } catch (error) {
     res.json({ error: error });
@@ -23,6 +24,7 @@ exports.post_link = async (req, res) => {
   try {
     await validatePostRequest(req);
     const { url } = req.body;
+
     const fullLink = getFullLink(url);
     const shortLink = await postLink(url);
     const response = {
