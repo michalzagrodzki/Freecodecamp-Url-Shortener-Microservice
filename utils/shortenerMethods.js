@@ -1,13 +1,15 @@
-function getLink(id) {
-  return "http://google.com";
+const { get, post } = require("./../service/shortener");
+
+async function getLink(id) {
+  return await get(id);
 }
 
 function getFullLink(request) {
   return request;
 }
 
-function postLink(payload) {
-  return "response";
+async function postLink(payload) {
+  return await post(payload);
 }
 
 function validateGetRequest(link) {
