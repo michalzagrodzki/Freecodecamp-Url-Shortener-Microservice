@@ -22,6 +22,6 @@ app.get("/api/shorturl/:id", shortener_controller.get_link);
 // POST shortener endpoint
 app.post("/api/shorturl", shortener_controller.post_link);
 
-app.listen(DEFAULT_PORT || process.env.PORT, function () {
+const listener = app.listen(DEFAULT_PORT || process.env.PORT, function () {
   console.log(`Listening on port ${listener.address().port}`);
 });
