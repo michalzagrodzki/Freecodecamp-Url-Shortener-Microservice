@@ -1,3 +1,5 @@
 const DEFAULT_PORT = 3377;
+const DEFAULT_ERROR = "invalid url";
 
 exports.DEFAULT_PORT = DEFAULT_PORT;
+exports.DEFAULT_ERROR = DEFAULT_ERROR;

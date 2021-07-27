@@ -1,4 +1,5 @@
 const { get, post } = require("./../service/shortener");
+const { DEFAULT_ERROR } = require("./constants");
 
 async function getLink(id) {
   return await get(id);
@@ -38,15 +39,15 @@ async function validateUrlDns(url) {
 
   return new Promise((resolve, reject) => {
     dns.lookup(url, options, (error) => {
-      if (error) return reject(error);
+      if (error) return reject(DEFAULT_ERROR);
       return resolve();
     });
   });
 }
 
 async function validatePostRequest(payload) {
-  if (isMissingQuery(payload)) throw "Missing url";
-  if (isEmptyQuery(payload)) throw "Empty request";
+  if (isMissingQuery(payload)) throw DEFAULT_ERROR;
+  if (isEmptyQuery(payload)) throw DEFAULT_ERROR;
   const url = validateUrlScheme(payload.body.url);
   await validateUrlDns(url);
 }
