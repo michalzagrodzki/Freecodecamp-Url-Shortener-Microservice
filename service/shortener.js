@@ -15,7 +15,12 @@ const shortUrlSchema = new Schema({
 let ShortUrl = mongoose.model("ShortUrl", shortUrlSchema);
 
 async function get(payload) {
-  return "";
+  const query = ShortUrl.where({ shortUrlId: payload });
+  query.findOne(function (err) {
+    if (err) return err;
+  });
+  const { fullUrl: response } = await query;
+  return response;
 }
 
 async function post(payload) {

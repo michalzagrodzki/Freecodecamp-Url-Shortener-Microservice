@@ -2,7 +2,9 @@ const { get, post } = require("./../service/shortener");
 const { DEFAULT_ERROR } = require("./constants");
 
 async function getLink(id) {
-  return await get(id);
+  let link = await get(id);
+  if (!isValidUrlScheme(link)) link = `http://${link}`;
+  return link;
 }
 
 function getFullLink(request) {
@@ -23,6 +25,11 @@ function isMissingQuery(payload) {
 
 function isEmptyQuery(payload) {
   if (payload.body.url === "") return true;
+}
+
+function isValidUrlScheme(url) {
+  const hostName = url.split("://")[1];
+  if (hostName) return true;
 }
 
 function validateUrlScheme(url) {
