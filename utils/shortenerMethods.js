@@ -38,6 +38,10 @@ function validateUrlScheme(url) {
   return hostName;
 }
 
+function removeQueries(url) {
+  return url.split("/")[0];
+}
+
 async function validateUrlDns(url) {
   const dns = require("dns");
   const options = {
@@ -56,7 +60,8 @@ async function validatePostRequest(payload) {
   if (isMissingQuery(payload)) throw DEFAULT_ERROR;
   if (isEmptyQuery(payload)) throw DEFAULT_ERROR;
   const url = validateUrlScheme(payload.body.url);
-  await validateUrlDns(url);
+  const baseUrl = removeQueries(url);
+  await validateUrlDns(baseUrl);
 }
 
 exports.getLink = getLink;
