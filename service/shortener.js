@@ -12,20 +12,22 @@ const shortUrlSchema = new Schema({
   fullUrl: { type: String, required: true },
 });
 
+let ShortUrl = mongoose.model("ShortUrl", shortUrlSchema);
+
 async function get(payload) {
   return "";
 }
 
 async function post(payload) {
   const guidUrl = uuidv4();
-  const shortUrl = new shortUrlSchema({
+  const shortUrlRecord = new ShortUrl({
     shortUrlId: guidUrl,
     fullUrl: payload,
   });
-  const response = shortUrl.save(function (err, data) {
-    if (err) return done(err);
-    done(null, data);
+  await shortUrlRecord.save(function (err) {
+    if (err) return err;
   });
+  const { shortUrlId: response } = shortUrlRecord;
   return response;
 }
 
